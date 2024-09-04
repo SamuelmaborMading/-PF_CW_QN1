@@ -1,40 +1,87 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_project_file>
-	<FileVersion major="1" minor="6" />
-	<Project>
-		<Option title="ATM" />
-		<Option pch_mode="2" />
-		<Option compiler="gcc" />
-		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/ATM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-g" />
-				</Compiler>
-			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/ATM" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O2" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-			</Target>
-		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-			<Add option="-fexceptions" />
-		</Compiler>
-		<Unit filename="main.cpp" />
-		<Extensions>
-			<lib_finder disable_auto="1" />
-		</Extensions>
-	</Project>
-</CodeBlocks_project_file>
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+string userId;
+    string password;
+    double balance = 0.0;
+    bool loggedIn = false;
+    char choice;
+
+    do {
+        cout << "Hi! Welcome to the ATM Machine!\n";
+        cout << "Please select an option from the menu below:\n";
+        cout << "l -> Login\n";
+        cout << "c -> Create New Account\n";
+        cout << "q -> Quit\n";
+        cout << "Please select an option: ";
+        cin >> choice;
+
+        if (choice == 'c') {
+            cout << "Please enter your user id: ";
+            cin >> userId;
+            cout << "Please enter your password: ";
+            cin >> password;
+            cout << "Thank You! Your account has been created!\n";
+        } else if (choice == 'l') {
+            string inputId, inputPassword;
+            cout << "Please enter your user id: ";
+            cin >> inputId;
+            cout << "Please enter your password: ";
+            cin >> inputPassword;
+
+            if (inputId == userId && inputPassword == password) {
+                loggedIn = true;
+                cout << "Access Granted!\n";
+
+                while (loggedIn) {
+                    cout << "d -> Deposit Money\n";
+                    cout << "w -> Withdraw Money\n";
+                    cout << "r -> Request Balance\n";
+                    cout << "q -> Quit\n";
+                    cout << "Please select an option: ";
+                    cin >> choice;
+
+                    if (choice == 'd') {
+                        double depositAmount;
+                        cout << "Amount of deposit: $";
+                        cin >> depositAmount;
+                        balance += depositAmount;
+                        cout << "Deposited $" << depositAmount << " successfully!\n";
+                    } else if (choice == 'w') {
+                        double withdrawAmount;
+                        cout << "Amount of withdrawal: $";
+                        cin >> withdrawAmount;
+                        if (withdrawAmount <= balance) {
+                            balance -= withdrawAmount;
+                            cout << "Withdrew $" << withdrawAmount << " successfully!\n";
+                        } else {
+                            cout << "Insufficient balance!\n";
+                        }
+                    } else if (choice == 'r') {
+                        cout << "Your balance is $" << balance << ".\n";
+                    } else if (choice == 'q') {
+                        loggedIn = false;
+                        cout << "Goodbye!\n";
+                    } else {
+                        cout << "Invalid option! Please try again.\n";
+                    }
+                }
+            } else {
+                cout << "*** LOGIN FAILED! ***\n";
+            }
+        } else if (choice != 'q') {
+            cout << "Invalid option! Please try again.\n";
+        }
+
+    } while (choice != 'q');
+
+    cout << "Goodbye!\n";
+
+    cout << endl;
+    return 0;
+}
+
+
+
